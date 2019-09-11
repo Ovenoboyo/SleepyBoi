@@ -29,7 +29,7 @@
             tools:ignore="InnerclassSeparator" />
 
         <service
-            android:name=".Services.BackgroundDistanceMatrixService"
+            android:name=".Services.NavigationService"
             android:enabled="true"
             android:exported="false"
             android:permission=""

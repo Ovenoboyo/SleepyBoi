@@ -54,7 +54,7 @@ import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions;
 import com.sahil.gupte.sleepyboi.Constants;
 import com.sahil.gupte.sleepyboi.Customs.PlaceInfoHolder;
 import com.sahil.gupte.sleepyboi.R;
-import com.sahil.gupte.sleepyboi.Services.BackgroundDistanceMatrixService;
+import com.sahil.gupte.sleepyboi.Services.NavigationService;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
@@ -281,7 +281,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Permis
     }
 
     private void startService() {
-        Intent intent = new Intent(this, BackgroundDistanceMatrixService.class);
+        Intent intent = new Intent(this, NavigationService.class);
         intent.putExtra(Constants.latitudeKey, Double.doubleToRawLongBits(latitude));
         intent.putExtra(Constants.longitudeKey, Double.doubleToRawLongBits(longitude));
         intent.putExtra("Orglat", Double.doubleToRawLongBits(OriginLatitude));

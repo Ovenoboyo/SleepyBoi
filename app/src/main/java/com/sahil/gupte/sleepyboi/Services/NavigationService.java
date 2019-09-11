@@ -19,12 +19,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class BackgroundDistanceMatrixService extends Service {
+public class NavigationService extends Service {
 
     private static final String API_KEY = Constants.API_KEY;
     private DirectionsRoute route;
 
-    public BackgroundDistanceMatrixService() {
+    public NavigationService() {
     }
 
     @Override
@@ -44,8 +44,8 @@ public class BackgroundDistanceMatrixService extends Service {
         double originLongitude = Double.longBitsToDouble(intent.getLongExtra("Orglng", 0));
 
         new Thread(() -> {
-            MapboxNavigation navigation = new MapboxNavigation(BackgroundDistanceMatrixService.this, API_KEY);
-            NavigationRoute.builder(BackgroundDistanceMatrixService.this)
+            MapboxNavigation navigation = new MapboxNavigation(NavigationService.this, API_KEY);
+            NavigationRoute.builder(NavigationService.this)
                     .accessToken(API_KEY)
                     .origin(Point.fromLngLat(originLongitude, originLatitude))
                     .destination(Point.fromLngLat(longitude, latitude))
@@ -90,7 +90,7 @@ public class BackgroundDistanceMatrixService extends Service {
     }
 
     private void launchAlarmScreen() {
-        Intent intent = new Intent(BackgroundDistanceMatrixService.this, AlarmScreenActivity.class);
+        Intent intent = new Intent(NavigationService.this, AlarmScreenActivity.class);
         intent.setAction(Intent.ACTION_VIEW);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
