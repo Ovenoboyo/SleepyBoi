@@ -35,9 +35,6 @@ public class NavigationService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        launchAlarmScreen();
-
-
         double latitude = Double.longBitsToDouble(intent.getLongExtra("lat", 0));
         double longitude = Double.longBitsToDouble(intent.getLongExtra("lng", 0));
         double originLatitude = Double.longBitsToDouble(intent.getLongExtra("Orglat", 0));
