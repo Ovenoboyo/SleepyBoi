@@ -4,7 +4,7 @@
     android:name="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.sahil.gupte.sleepyboi.MapsActivity">
+    tools:context="com.sahil.gupte.sleepyboi.Activities.MapsActivity">
 
     <com.mapbox.mapboxsdk.maps.MapView
         android:id="@+id/map"
