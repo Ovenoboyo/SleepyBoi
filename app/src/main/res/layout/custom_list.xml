@@ -49,11 +49,11 @@
             android:textAlignment="center" />
 
         <TextView
-            android:id="@+id/time"
+            android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="Time"
+            android:text="Name"
             android:textAlignment="center" />
     </LinearLayout>
 

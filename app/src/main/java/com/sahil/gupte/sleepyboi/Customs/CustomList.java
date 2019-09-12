@@ -63,14 +63,16 @@ public class CustomList extends RecyclerView.Adapter<CustomList.RecyclerViewHold
     public void onBindViewHolder(@NonNull final CustomList.RecyclerViewHolder holder, final int position) {
         SharedPreferences pref = context1.getSharedPreferences("place" + (position), 0);
         final String placeAddress = pref.getString("address", null);
+        final String placeName = pref.getString("name", null);
         final long lat = pref.getLong(Constants.latitudeKey, 0);
         final long lon = pref.getLong(Constants.longitudeKey, 0);
         final int clockHour = pref.getInt("clockHour", -1);
         final int clockMin = pref.getInt("clockMin", -1);
+
         holder.placeName.setText(placeAddress);
         String hour = (clockHour < 10) ? "0" + clockHour : "" + clockHour;
         String min = (clockMin < 10) ? "0" + clockMin : "" + clockMin;
-        holder.time.setText(hour + ":" + min);
+        holder.name.setText(placeName);
 
         holder.frame.setOnTouchListener(
                 new SwipeDismissTouchListener(
@@ -138,14 +140,14 @@ public class CustomList extends RecyclerView.Adapter<CustomList.RecyclerViewHold
     public class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
         final TextView placeName;
-        final TextView time;
+        final TextView name;
         final LinearLayout frame;
         final TextView bgTextStart;
         final TextView bgTextEnd;
 
         RecyclerViewHolder(View view) {
             super(view);
-            time = view.findViewById(R.id.time);
+            name = view.findViewById(R.id.name);
             placeName = view.findViewById(R.id.placeName);
             frame = view.findViewById(R.id.content_frame);
             bgTextStart = view.findViewById(R.id.bgTextStart);
