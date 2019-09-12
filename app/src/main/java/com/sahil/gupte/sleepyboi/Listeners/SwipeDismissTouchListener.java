@@ -51,6 +51,7 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
     @Override
     public boolean onTouch(final View view, MotionEvent motionEvent) {
         // offset because the view is translated during swipe
+
         motionEvent.offsetLocation(mTranslationX, 0);
 
         if (mViewWidth < 2) {
@@ -66,7 +67,7 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
                     mVelocityTracker = VelocityTracker.obtain();
                     mVelocityTracker.addMovement(motionEvent);
                 }
-                return true;
+                return false;
             }
 
             case MotionEvent.ACTION_UP: {
@@ -194,16 +195,11 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
                 break;
             }
         }
-        performClick();
         return false;
     }
 
     private void performDismiss() {
         mCallbacks.onDismiss();
-    }
-
-    private void performClick() {
-        mCallbacks.onClick();
     }
 
     /**
@@ -221,9 +217,10 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
          */
         void onDismiss();
 
-        /**
-         * Called when the user has indicated they she would like to click on the view.
-         */
         void onClick();
+    }
+
+    private void performClick() {
+        mCallbacks.onClick();
     }
 }
