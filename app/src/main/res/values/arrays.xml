@@ -1,0 +1,10 @@
+<resources>
+    <!-- Reply Preference -->
+    <string-array name="accent">
+        <item>Blue</item>
+        <item>Orange</item>
+        <item>Yellow</item>
+        <item>Cyan</item>
+        <item>Pink</item>
+    </string-array>
+</resources>

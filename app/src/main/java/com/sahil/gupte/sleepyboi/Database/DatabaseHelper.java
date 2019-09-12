@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.sahil.gupte.sleepyboi.Constants;
 import com.sahil.gupte.sleepyboi.Customs.PlaceInfoHolder;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     static final String dbName="PlaceKeeper.db";
     static final String tableName="Places";
     static final String colID="PlaceID";
-    static final String colName=Constants.placeName;
+    static final String colName= Constants.placeName;
     static final String colAddress=Constants.placeAddress;
     static final String colLat="PlaceLat";
     static final String colLng="PlaceLng";

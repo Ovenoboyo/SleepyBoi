@@ -9,4 +9,11 @@
         <attr name="metaButtonBarButtonStyle" format="reference" />
     </declare-styleable>
 
+        <attr name="ToolbarTheme" format="reference"/>
+        <attr name="Primary" format="reference"/>
+        <attr name="PrimaryDark" format="reference"/>
+        <attr name="PrimaryText" format="reference" />
+        <attr name="PrimaryTextDark" format="reference" />
+        <attr name="Accent" format="reference"/>
+
 </resources>

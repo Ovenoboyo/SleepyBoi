@@ -115,8 +115,10 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
                         public void onAnimationEnd(Animator animation) {
                             if ((finalDismissRight)) {
                                 performDelete();
+                                view.setTranslationX(1f);
                             } else {
                                 performEdit();
+                                //view.setTranslationX(1f);
                             }
                         }
                     });

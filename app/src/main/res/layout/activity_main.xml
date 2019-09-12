@@ -1,39 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".Activities.MainActivity">
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".Activities.MainActivity"
+    android:paddingBottom="50dp"
+    android:background="?attr/Primary"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:theme="?attr/ToolbarTheme">
+
+        <androidx.appcompat.widget.Toolbar
+            android:theme="?attr/ToolbarTheme"
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:textAlignment="center"
+            android:layout_height="?attr/actionBarSize"
+            app:popupTheme="?attr/ToolbarTheme" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_activity_main"
+                android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                android:textColor="?attr/PrimaryText"
+                android:layout_gravity="center"
+                android:id="@+id/toolbar_title" />
+
+            <ImageButton
+                android:id="@+id/menu_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="8dp"
+                android:background="#00000000"
+                android:clickable="true"
+                android:src="@drawable/ic_more_vert_black_24dp"/>
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/custom_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:layout_marginTop="4dp"
+            android:background="?attr/Primary"
+            android:layout_below="@id/appbar">
 
         </androidx.recyclerview.widget.RecyclerView>
 
-        <FrameLayout
-            android:id="@+id/add_button"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginHorizontal="5dp"
-            android:layout_marginVertical="8dp"
-            android:background="@drawable/light_border">
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        app:elevation="0dp"
+        app:srcCompat="@android:drawable/ic_menu_add" />
 
 
-            <TextView
-                android:id="@+id/time"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Add"
-                android:textAlignment="center" />
-        </FrameLayout>
-    </LinearLayout>
-
-</ScrollView>
+</RelativeLayout>

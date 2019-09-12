@@ -144,7 +144,7 @@ public class CustomList extends RecyclerView.Adapter<CustomList.RecyclerViewHold
         RecyclerViewHolder(View view) {
             super(view);
             name = view.findViewById(R.id.name);
-            placeName = view.findViewById(R.id.placeName);
+            placeName = view.findViewById(R.id.placeAddress);
             frame = view.findViewById(R.id.content_frame);
             bgTextStart = view.findViewById(R.id.bgTextStart);
             bgTextEnd = view.findViewById(R.id.bgTextEnd);

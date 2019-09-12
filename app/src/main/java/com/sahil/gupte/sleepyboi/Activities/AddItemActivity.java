@@ -13,6 +13,7 @@ import com.sahil.gupte.sleepyboi.Constants;
 import com.sahil.gupte.sleepyboi.Customs.PlaceInfoHolder;
 import com.sahil.gupte.sleepyboi.Database.DatabaseHelper;
 import com.sahil.gupte.sleepyboi.R;
+import com.sahil.gupte.sleepyboi.Utils.ThemeUtils;
 
 import java.util.Objects;
 
@@ -23,10 +24,11 @@ public class AddItemActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ThemeUtils.onActivityCreateSetTheme(this, getApplicationContext());
         setContentView(R.layout.activity_add_item);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         Intent myIntent = getIntent();
@@ -36,18 +38,18 @@ public class AddItemActivity extends AppCompatActivity {
         final double longitude = myIntent.getDoubleExtra(Constants.longitudeKey, 0);
         final String placeAddress = myIntent.getStringExtra(Constants.placeAddress);
 
-        Button mapPicker = findViewById(R.id.mapPicker);
         TextView locationDisplay = findViewById(R.id.location_display);
         if (placeAddress != null) {
             locationDisplay.setText(placeAddress);
         }
 
-        mapPicker.setOnClickListener(view -> {
+        locationDisplay.setOnClickListener(view -> {
             Intent mapsActivity = new Intent(getBaseContext(), MapsActivity.class);
             mapsActivity.putExtra(Constants.count, count);
             mapsActivity.putExtra(Constants.latitudeKey, latitude);
             mapsActivity.putExtra(Constants.longitudeKey, longitude);
             mapsActivity.putExtra("editMap", true);
+            finish();
             startActivity(mapsActivity);
         });
 
@@ -62,6 +64,7 @@ public class AddItemActivity extends AppCompatActivity {
                         PlaceInfoHolder placeInfoHolder = new PlaceInfoHolder(latitude, longitude, placeAddress, nameInput.getText().toString().trim(), count);
                         databaseHelper.addHandler(placeInfoHolder);
                         finish();
+                        startActivity(new Intent(AddItemActivity.this, MainActivity.class));
                     } else {
                         displayToast("Address can not be empty");
                     }
@@ -73,6 +76,13 @@ public class AddItemActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        startActivity(new Intent(this, MainActivity.class));
+        super.onBackPressed();
     }
 
     private void displayToast(String message) {

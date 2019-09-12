@@ -55,6 +55,7 @@ import com.sahil.gupte.sleepyboi.Constants;
 import com.sahil.gupte.sleepyboi.Customs.PlaceInfoHolder;
 import com.sahil.gupte.sleepyboi.R;
 import com.sahil.gupte.sleepyboi.Services.NavigationService;
+import com.sahil.gupte.sleepyboi.Utils.ThemeUtils;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
@@ -88,6 +89,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Permis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ThemeUtils.onActivityCreateSetTheme(this, getApplicationContext());
 
         GoogleApiClient googleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(LocationServices.API).build();
@@ -101,8 +103,8 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Permis
 
         Intent myIntent = getIntent();
         count = myIntent.getIntExtra(Constants.count, 0);
-        latitude = Double.longBitsToDouble(myIntent.getLongExtra(Constants.latitudeKey, 0));
-        longitude = Double.longBitsToDouble(myIntent.getLongExtra(Constants.longitudeKey, 0));
+        latitude = myIntent.getDoubleExtra(Constants.latitudeKey, 0);
+        longitude = myIntent.getDoubleExtra(Constants.longitudeKey, 0);
         editMap = myIntent.getBooleanExtra("editMap", false);
 
         Button confirm = findViewById(R.id.confirm);

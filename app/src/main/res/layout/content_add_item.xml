@@ -4,55 +4,47 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/Primary"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".Activities.AddItemActivity"
     tools:showIn="@layout/activity_add_item">
 
-    <FrameLayout
-        android:id="@+id/timePicker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/light_border">
-
-        <TextView
-            android:id="@+id/time_display"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_margin="5dp"
-            android:text="Time"
-            android:textAppearance="?android:attr/textAppearanceListItem" />
-    </FrameLayout>
-
-    <TextView
-        android:id="@+id/location_display"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/nameInput"
-        android:text="No place selected" />
-
     <EditText
         android:id="@+id/nameInput"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:layout_below="@id/timePicker"
-        android:text="Name" />
+        android:textAlignment="center"
+        android:layout_marginVertical="50dp"
+        android:layout_marginHorizontal="8dp"
+        android:hint="Descriptive name of location"
+        android:textColorHint="?attr/PrimaryTextDark"/>
 
-    <Button
-        android:id="@+id/mapPicker"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/location_display"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/location_display"
-        android:text="Select Location" />
+        android:layout_below="@id/nameInput"
+        android:paddingVertical="18dp"
+        android:paddingHorizontal="4dp"
+        android:background="@drawable/text_border"
+        android:textColor="?attr/PrimaryText"
+        android:layout_marginVertical="25dp"
+        android:layout_marginHorizontal="8dp"
+        android:textAlignment="center"
+        android:text="Tap to set a location" />
 
     <Button
         android:id="@+id/submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/mapPicker"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginVertical="50dp"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="5dp"
+        android:background="@drawable/button"
         android:text="Submit" />
 
 </RelativeLayout>
