@@ -30,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/nameInput"
-        android:text="Sydney" />
+        android:text="No place selected" />
 
     <EditText
         android:id="@+id/nameInput"

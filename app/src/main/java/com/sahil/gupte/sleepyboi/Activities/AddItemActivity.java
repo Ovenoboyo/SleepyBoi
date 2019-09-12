@@ -1,14 +1,11 @@
 package com.sahil.gupte.sleepyboi.Activities;
 
-import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -59,13 +56,27 @@ public class AddItemActivity extends AppCompatActivity {
 
         Button submit = findViewById(R.id.submit);
         submit.setOnClickListener(view -> {
-            DatabaseHelper databaseHelper = new DatabaseHelper(this);
-            PlaceInfoHolder placeInfoHolder = new PlaceInfoHolder(latitude, longitude, placeAddress, nameInput.getText().toString().trim(), count);
-            databaseHelper.addHandler(placeInfoHolder);
-
-            Intent intent = new Intent(AddItemActivity.this, MainActivity.class);
-            startActivity(intent);
+            if (!nameInput.getText().toString().trim().equals("")) {
+                if (latitude != 0 && longitude != 0) {
+                    if (placeAddress != null) {
+                        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+                        PlaceInfoHolder placeInfoHolder = new PlaceInfoHolder(latitude, longitude, placeAddress, nameInput.getText().toString().trim(), count);
+                        databaseHelper.addHandler(placeInfoHolder);
+                        finish();
+                    } else {
+                        displayToast("Address can not be empty");
+                    }
+                } else {
+                    displayToast("Invalid longitude and latitude");
+                }
+            } else {
+                displayToast("Name can not be empty");
+            }
         });
 
+    }
+
+    private void displayToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 }

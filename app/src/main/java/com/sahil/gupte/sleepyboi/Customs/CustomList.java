@@ -1,9 +1,8 @@
 package com.sahil.gupte.sleepyboi.Customs;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +22,8 @@ import com.sahil.gupte.sleepyboi.R;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import timber.log.Timber;
+
 public class CustomList extends RecyclerView.Adapter<CustomList.RecyclerViewHolder> {
     private final Activity context1;
     private final HashMap<Integer, RecyclerView.ViewHolder> holderHashMap = new HashMap<>();
@@ -34,10 +35,7 @@ public class CustomList extends RecyclerView.Adapter<CustomList.RecyclerViewHold
         context1 = context;
         databaseHelper = new DatabaseHelper(context1);
         countArray = databaseHelper.getCountArray();
-        Log.d("test", "CustomList: "+countArray);
         count = countArray.size();
-        Log.d("test", "CustomList: " + count);
-
     }
 
     @Override
@@ -50,7 +48,6 @@ public class CustomList extends RecyclerView.Adapter<CustomList.RecyclerViewHold
     public void onViewAttachedToWindow(@NonNull RecyclerViewHolder holder) {
         holderHashMap.remove(holder.getAdapterPosition());
         super.onViewAttachedToWindow(holder);
-
     }
 
     @NonNull
@@ -61,6 +58,7 @@ public class CustomList extends RecyclerView.Adapter<CustomList.RecyclerViewHold
         return new RecyclerViewHolder(view);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onBindViewHolder(@NonNull final CustomList.RecyclerViewHolder holder, final int position) {
         PlaceInfoHolder placeInfoHolder = databaseHelper.getHandler(countArray.get(position));
@@ -99,10 +97,15 @@ public class CustomList extends RecyclerView.Adapter<CustomList.RecyclerViewHold
 
                             @Override
                             public void onDismissRight() {
-                                databaseHelper.removeHandler(countArray.get(position));
-                                countArray = databaseHelper.getCountArray();
-                                count = countArray.size();
-                                notifyDataSetChanged();
+                                boolean result = databaseHelper.removeHandler(countArray.get(position));
+
+                                if (result) {
+                                    countArray = databaseHelper.getCountArray();
+                                    count = countArray.size();
+                                    notifyDataSetChanged();
+                                } else {
+                                    Timber.d("onDismissRight: Something went wrong while deleting Row");
+                                }
                             }
 
                         })
@@ -130,12 +133,7 @@ public class CustomList extends RecyclerView.Adapter<CustomList.RecyclerViewHold
         return position;
     }
 
-
-    public void setCount(int count) {
-        this.count = count;
-    }
-
-    public class RecyclerViewHolder extends RecyclerView.ViewHolder {
+    class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
         final TextView placeName;
         final TextView name;

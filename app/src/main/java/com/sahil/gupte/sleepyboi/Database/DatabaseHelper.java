@@ -47,7 +47,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(colAddress, placeInfoHolder.getAddress());
         values.put(colLat, placeInfoHolder.getLatitude());
         values.put(colLng, placeInfoHolder.getLongitude());
-        Log.d("test", "addHandler: "+getCountArray()+" "+placeInfoHolder.getDbCount());
         if (!getCountArray().contains(placeInfoHolder.getDbCount())) {
             db.insert(tableName, null, values);
             db.close();
@@ -58,7 +57,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public boolean removeHandler(int id) {
-        Boolean result = false;
+        boolean result = false;
         String query = "Select * FROM " + tableName + " WHERE " + colID + " = '" + id + "'";
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);

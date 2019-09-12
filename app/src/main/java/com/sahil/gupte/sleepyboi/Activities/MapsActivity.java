@@ -273,6 +273,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Permis
         intent.putExtra(Constants.latitudeKey, placeInfoHolder.getLatitude());
         intent.putExtra(Constants.longitudeKey, placeInfoHolder.getLongitude());
         intent.putExtra("count", count);
+        finish();
         startActivity(intent);
     }
 
