@@ -195,6 +195,7 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
                 break;
             }
         }
+
         return false;
     }
 
@@ -217,10 +218,5 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
          */
         void onDismiss();
 
-        void onClick();
-    }
-
-    private void performClick() {
-        mCallbacks.onClick();
     }
 }

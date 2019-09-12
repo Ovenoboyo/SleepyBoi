@@ -71,16 +71,6 @@ public class CustomList extends RecyclerView.Adapter<CustomList.RecyclerViewHold
                         new SwipeDismissTouchListener.DismissCallbacks() {
 
                             @Override
-                            public void onClick() {
-                                Intent intent = new Intent(context1, MapsActivity.class);
-                                intent.putExtra(Constants.latitudeKey, lat);
-                                intent.putExtra(Constants.longitudeKey, lon);
-                                intent.putExtra("placeAddress", placeAddress);
-                                intent.putExtra("editMap", false);
-                                context1.startActivity(intent);
-                            }
-
-                            @Override
                             public boolean canDismiss() {
                                 return true;
                             }
@@ -99,8 +89,17 @@ public class CustomList extends RecyclerView.Adapter<CustomList.RecyclerViewHold
                                 context1.startActivity(intent);
                             }
 
-                        }
-                ));
+                        })
+        );
+
+        holder.frame.setOnClickListener(view -> {
+            Intent intent = new Intent(context1, MapsActivity.class);
+            intent.putExtra(Constants.latitudeKey, lat);
+            intent.putExtra(Constants.longitudeKey, lon);
+            intent.putExtra("placeAddress", placeAddress);
+            intent.putExtra("editMap", false);
+            context1.startActivity(intent);
+        });
 
     }
 
