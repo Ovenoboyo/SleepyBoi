@@ -56,12 +56,11 @@ public class AddItemActivity extends AppCompatActivity {
         });
 
         final TextView nameInput = findViewById(R.id.nameInput);
-        String placeName = nameInput.getText().toString();
 
         Button submit = findViewById(R.id.submit);
         submit.setOnClickListener(view -> {
             DatabaseHelper databaseHelper = new DatabaseHelper(this);
-            PlaceInfoHolder placeInfoHolder = new PlaceInfoHolder(latitude, longitude, placeAddress, placeName, count);
+            PlaceInfoHolder placeInfoHolder = new PlaceInfoHolder(latitude, longitude, placeAddress, nameInput.getText().toString().trim(), count);
             databaseHelper.addHandler(placeInfoHolder);
 
             Intent intent = new Intent(AddItemActivity.this, MainActivity.class);
