@@ -29,8 +29,17 @@
         android:id="@+id/location_display"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/timePicker"
+        android:layout_below="@id/nameInput"
         android:text="Sydney" />
+
+    <EditText
+        android:id="@+id/nameInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:layout_below="@id/timePicker"
+        android:text="Name" />
 
     <Button
         android:id="@+id/mapPicker"

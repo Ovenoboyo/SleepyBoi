@@ -39,7 +39,6 @@ public class AddItemActivity extends AppCompatActivity {
 
         final double latitude = myIntent.getDoubleExtra(Constants.latitudeKey, 0);
         final double longitude = myIntent.getDoubleExtra(Constants.longitudeKey, 0);
-        String placeName = myIntent.getStringExtra("placeName");
         final String placeAddress = myIntent.getStringExtra("placeAddress");
 
         clockHour = myIntent.getIntExtra("clockHour", -1);
@@ -64,8 +63,8 @@ public class AddItemActivity extends AppCompatActivity {
 
         Button mapPicker = findViewById(R.id.mapPicker);
         TextView locationDisplay = findViewById(R.id.location_display);
-        if (placeName != null) {
-            locationDisplay.setText(placeName);
+        if (placeAddress != null) {
+            locationDisplay.setText(placeAddress);
         }
 
         if (clockMin != -1 && clockHour != -1) {
@@ -85,9 +84,11 @@ public class AddItemActivity extends AppCompatActivity {
             startActivity(mapsActivity);
         });
 
+        final TextView nameInput = findViewById(R.id.nameInput);
+        String placeName = nameInput.getText().toString();
+
         Button submit = findViewById(R.id.submit);
         submit.setOnClickListener(view -> {
-
             DatabaseHelper databaseHelper = new DatabaseHelper(this);
             PlaceInfoHolder placeInfoHolder = new PlaceInfoHolder(latitude, longitude, placeAddress, placeName);
             databaseHelper.addHandler(placeInfoHolder);
