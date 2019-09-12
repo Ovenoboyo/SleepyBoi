@@ -67,8 +67,8 @@ public class CustomList extends RecyclerView.Adapter<CustomList.RecyclerViewHold
         final double lat = placeInfoHolder.getLatitude();
         final double lon = placeInfoHolder.getLongitude();
 
-        holder.placeName.setText(placeAddress);
-        holder.name.setText(placeName);
+        holder.placeAddress.setText(placeAddress);
+        holder.placeName.setText(placeName);
 
         holder.frame.setOnTouchListener(
                 new SwipeDismissTouchListener(
@@ -86,7 +86,7 @@ public class CustomList extends RecyclerView.Adapter<CustomList.RecyclerViewHold
                             @Override
                             public void onDismissLeft() {
                                 Intent intent = new Intent(context1, AddItemActivity.class);
-                                intent.putExtra(Constants.placeName, placeAddress);
+                                intent.putExtra(Constants.placeName, placeName);
                                 intent.putExtra(Constants.placeAddress, placeAddress);
                                 intent.putExtra(Constants.latitudeKey, lat);
                                 intent.putExtra(Constants.longitudeKey, lon);
@@ -135,16 +135,16 @@ public class CustomList extends RecyclerView.Adapter<CustomList.RecyclerViewHold
 
     class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
+        final TextView placeAddress;
         final TextView placeName;
-        final TextView name;
         final LinearLayout frame;
         final TextView bgTextStart;
         final TextView bgTextEnd;
 
         RecyclerViewHolder(View view) {
             super(view);
-            name = view.findViewById(R.id.name);
-            placeName = view.findViewById(R.id.placeAddress);
+            placeName = view.findViewById(R.id.name);
+            placeAddress = view.findViewById(R.id.placeAddress);
             frame = view.findViewById(R.id.content_frame);
             bgTextStart = view.findViewById(R.id.bgTextStart);
             bgTextEnd = view.findViewById(R.id.bgTextEnd);

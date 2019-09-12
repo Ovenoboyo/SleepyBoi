@@ -76,7 +76,8 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Permis
     private final MapActivityLocationCallback callback = new MapActivityLocationCallback(this);
     private MapView mapView;
     private MapboxMap mapboxMap;
-    private int count, clockMin, clockHour;
+    private int count;
+    private String placeName;
     private Double latitude;
     private Double longitude;
     private Double OriginLatitude;
@@ -106,6 +107,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Permis
         latitude = myIntent.getDoubleExtra(Constants.latitudeKey, 0);
         longitude = myIntent.getDoubleExtra(Constants.longitudeKey, 0);
         editMap = myIntent.getBooleanExtra("editMap", false);
+        placeName = myIntent.getStringExtra(Constants.placeName);
 
         Button confirm = findViewById(R.id.confirm);
 
@@ -270,7 +272,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Permis
     private void switchActivity() {
         PlaceInfoHolder placeInfoHolder = setPlaceInfoHolder(marker.getPosition());
         Intent intent = new Intent(this, AddItemActivity.class);
-        intent.putExtra(Constants.placeName, placeInfoHolder.getAddress());
+        intent.putExtra(Constants.placeName, placeName);
         intent.putExtra(Constants.placeAddress, placeInfoHolder.getAddress());
         intent.putExtra(Constants.latitudeKey, placeInfoHolder.getLatitude());
         intent.putExtra(Constants.longitudeKey, placeInfoHolder.getLongitude());

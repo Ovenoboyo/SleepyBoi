@@ -37,6 +37,7 @@ public class AddItemActivity extends AppCompatActivity {
         final double latitude = myIntent.getDoubleExtra(Constants.latitudeKey, 0);
         final double longitude = myIntent.getDoubleExtra(Constants.longitudeKey, 0);
         final String placeAddress = myIntent.getStringExtra(Constants.placeAddress);
+        final String placeName = myIntent.getStringExtra(Constants.placeName);
 
         TextView locationDisplay = findViewById(R.id.location_display);
         if (placeAddress != null) {
@@ -45,6 +46,7 @@ public class AddItemActivity extends AppCompatActivity {
 
         locationDisplay.setOnClickListener(view -> {
             Intent mapsActivity = new Intent(getBaseContext(), MapsActivity.class);
+            mapsActivity.putExtra(Constants.placeName, placeName);
             mapsActivity.putExtra(Constants.count, count);
             mapsActivity.putExtra(Constants.latitudeKey, latitude);
             mapsActivity.putExtra(Constants.longitudeKey, longitude);
@@ -54,6 +56,7 @@ public class AddItemActivity extends AppCompatActivity {
         });
 
         final TextView nameInput = findViewById(R.id.nameInput);
+        nameInput.setText(placeName);
 
         Button submit = findViewById(R.id.submit);
         submit.setOnClickListener(view -> {
