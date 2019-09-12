@@ -12,6 +12,7 @@
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:elevation="0dp"
         android:theme="?attr/ToolbarTheme">
 
         <androidx.appcompat.widget.Toolbar
@@ -20,7 +21,8 @@
             android:layout_width="match_parent"
             android:textAlignment="center"
             android:layout_height="?attr/actionBarSize"
-            app:popupTheme="?attr/ToolbarTheme" >
+            app:popupTheme="?attr/ToolbarTheme"
+            app:elevation="0dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -62,8 +64,10 @@
         android:clickable="true"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:paddingVertical="3dp"
+        android:paddingHorizontal="3dp"
         app:elevation="0dp"
-        app:srcCompat="@android:drawable/ic_menu_add" />
+        app:srcCompat="@drawable/ic_add" />
 
 
 </RelativeLayout>
