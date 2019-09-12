@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.widget.TextView;
 
 public class SwipeDismissTouchListener implements View.OnTouchListener {
     // Cached ViewConfiguration and system-wide constant values
@@ -17,6 +18,7 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
 
     // Fixed properties
     private final View mView;
+    private final TextView bgText;
     private final DismissCallbacks mCallbacks;
     private final Object mToken;
     private int mViewWidth = 1; // 1 and not 0 to prevent dividing by zero
@@ -36,7 +38,7 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
      * @param callbacks The callback to trigger when the user has indicated that she would like to
      *                  dismiss this view.
      */
-    public SwipeDismissTouchListener(View view, Object token, DismissCallbacks callbacks) {
+    public SwipeDismissTouchListener(View view, TextView bgText, Object token, DismissCallbacks callbacks) {
         ViewConfiguration vc = ViewConfiguration.get(view.getContext());
         mSlop = vc.getScaledTouchSlop();
         mMinFlingVelocity = vc.getScaledMinimumFlingVelocity() * 16;
@@ -46,6 +48,7 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
         mView = view;
         mToken = token;
         mCallbacks = callbacks;
+        this.bgText = bgText;
     }
 
     @Override
@@ -111,6 +114,10 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
                         }
                     });
                     objectAnimator.start();
+
+                    ObjectAnimator bgTextAnimator = ObjectAnimator.ofFloat(bgText, "alpha", 1f);
+                    bgTextAnimator.setDuration(mAnimationTime);
+                    bgTextAnimator.start();
                     /*mView.animate()
                             .translationX(dismissRight ? ((float)mViewWidth/2) : ((float)-mViewWidth/2))
                             .alpha(0.8f)
@@ -132,6 +139,11 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
                             .translationX(0)
                             .setDuration(mAnimationTime)
                             .setListener(null);
+
+                    bgText.animate()
+                            .alpha(1f)
+                            .setDuration(mAnimationTime)
+                            .setListener(null);
                 }
                 mVelocityTracker.recycle();
                 mVelocityTracker = null;
@@ -149,6 +161,11 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
 
                 mView.animate()
                         .translationX(0)
+                        .setDuration(mAnimationTime)
+                        .setListener(null);
+
+                bgText.animate()
+                        .alpha(0f)
                         .setDuration(mAnimationTime)
                         .setListener(null);
                 mVelocityTracker.recycle();
@@ -185,6 +202,8 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
                 if (mSwiping) {
                     mTranslationX = deltaX;
                     mView.setTranslationX(deltaX - mSwipingSlop);
+                    bgText.setAlpha(Math.max(0.5f, Math.min(1f,
+                            1f * Math.abs(deltaX) / (float) (mViewWidth / 2))));
                     return true;
                 }
                 break;

@@ -67,6 +67,7 @@ public class CustomList extends RecyclerView.Adapter<CustomList.RecyclerViewHold
         holder.frame.setOnTouchListener(
                 new SwipeDismissTouchListener(
                         holder.frame,
+                        holder.bgText,
                         null,
                         new SwipeDismissTouchListener.DismissCallbacks() {
 
@@ -123,12 +124,14 @@ public class CustomList extends RecyclerView.Adapter<CustomList.RecyclerViewHold
         final TextView placeName;
         final TextView time;
         final LinearLayout frame;
+        final TextView bgText;
 
         RecyclerViewHolder(View view) {
             super(view);
             time = view.findViewById(R.id.time);
             placeName = view.findViewById(R.id.placeName);
             frame = view.findViewById(R.id.content_frame);
+            bgText = view.findViewById(R.id.bgText);
 
         }
     }
