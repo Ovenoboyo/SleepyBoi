@@ -130,7 +130,6 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
                     // cancel
                     mView.animate()
                             .translationX(0)
-                            .alpha(1)
                             .setDuration(mAnimationTime)
                             .setListener(null);
                 }
@@ -150,7 +149,6 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
 
                 mView.animate()
                         .translationX(0)
-                        .alpha(1)
                         .setDuration(mAnimationTime)
                         .setListener(null);
                 mVelocityTracker.recycle();
@@ -187,9 +185,6 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
                 if (mSwiping) {
                     mTranslationX = deltaX;
                     mView.setTranslationX(deltaX - mSwipingSlop);
-                    // TODO: use an ease-out interpolator or such
-                    mView.setAlpha(Math.max(0.7f, Math.min(1f,
-                            1f - 2f * Math.abs(deltaX) / mViewWidth)));
                     return true;
                 }
                 break;
