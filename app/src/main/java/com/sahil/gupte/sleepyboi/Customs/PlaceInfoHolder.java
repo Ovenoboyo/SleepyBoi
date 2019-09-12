@@ -5,12 +5,14 @@ public class PlaceInfoHolder {
     private double longitude;
     private String address;
     private String name;
+    private int dbCount;
 
-    public PlaceInfoHolder(Double lat, Double lng, String add, String name) {
+    public PlaceInfoHolder(Double lat, Double lng, String add, String name, int count) {
         latitude = lat;
         longitude = lng;
         address = add;
         this.name = name;
+        dbCount = count;
     }
 
     public double getLatitude() {
@@ -27,6 +29,10 @@ public class PlaceInfoHolder {
 
     public String getName() {
         return name;
+    }
+
+    public int getDbCount() {
+        return dbCount;
     }
 
 }

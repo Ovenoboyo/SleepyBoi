@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.sahil.gupte.sleepyboi.Customs.PlaceInfoHolder;
 
@@ -40,14 +41,38 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void addHandler(PlaceInfoHolder placeInfoHolder) {
+        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(colName, placeInfoHolder.getName());
         values.put(colAddress, placeInfoHolder.getAddress());
         values.put(colLat, placeInfoHolder.getLatitude());
         values.put(colLng, placeInfoHolder.getLongitude());
+        Log.d("test", "addHandler: "+getCountArray()+" "+placeInfoHolder.getDbCount());
+        if (!getCountArray().contains(placeInfoHolder.getDbCount())) {
+            db.insert(tableName, null, values);
+            db.close();
+        } else {
+            db.update(tableName, values, colID+" = "+placeInfoHolder.getDbCount(), null);
+            db.close();
+        }
+    }
+
+    public boolean removeHandler(int id) {
+        Boolean result = false;
+        String query = "Select * FROM " + tableName + " WHERE " + colID + " = '" + id + "'";
         SQLiteDatabase db = this.getWritableDatabase();
-        db.insert(tableName, null, values);
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            db.delete(tableName, colID + "=?",
+                    new String[] {
+                ""+id
+            });
+            cursor.close();
+            result = true;
+        }
         db.close();
+        return result;
+
     }
 
     public PlaceInfoHolder getHandler(int id) {
@@ -57,7 +82,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         PlaceInfoHolder placeInfoHolder;
         if (cursor.moveToFirst()) {
             cursor.moveToFirst();
-            placeInfoHolder = new PlaceInfoHolder(cursor.getDouble(3), cursor.getDouble(4), cursor.getString(2), cursor.getString(1));
+            placeInfoHolder = new PlaceInfoHolder(cursor.getDouble(3), cursor.getDouble(4), cursor.getString(2), cursor.getString(1), cursor.getInt(0));
             cursor.close();
         } else {
             placeInfoHolder = null;

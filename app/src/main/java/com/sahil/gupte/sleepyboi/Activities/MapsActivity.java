@@ -101,8 +101,6 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Permis
 
         Intent myIntent = getIntent();
         count = myIntent.getIntExtra("count", 0);
-        clockHour = myIntent.getIntExtra("clockHour", -1);
-        clockMin = myIntent.getIntExtra("clockMin", -1);
         latitude = Double.longBitsToDouble(myIntent.getLongExtra(Constants.latitudeKey, 0));
         longitude = Double.longBitsToDouble(myIntent.getLongExtra(Constants.longitudeKey, 0));
         editMap = myIntent.getBooleanExtra("editMap", false);
@@ -258,7 +256,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Permis
             e.printStackTrace();
             addresses = null;
         }
-        return new PlaceInfoHolder(Objects.requireNonNull(addresses).get(0).getLatitude(), addresses.get(0).getLongitude(), addresses.get(0).getAddressLine(0), "test");
+        return new PlaceInfoHolder(Objects.requireNonNull(addresses).get(0).getLatitude(), addresses.get(0).getLongitude(), addresses.get(0).getAddressLine(0), "test", count);
     }
 
 

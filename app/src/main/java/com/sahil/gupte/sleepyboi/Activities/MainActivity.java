@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         FrameLayout addNew = findViewById(R.id.add_button);
         addNew.setOnClickListener(view -> {
             Intent AddItemActivity = new Intent(getBaseContext(), AddItemActivity.class);
-            //AddItemActivity.putExtra("count", listAdapter.getItemCount());
+            AddItemActivity.putExtra("count", listAdapter.getItemCount()+1);
             startActivity(AddItemActivity);
         });
     }

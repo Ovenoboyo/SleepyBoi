@@ -34,6 +34,7 @@ public class CustomList extends RecyclerView.Adapter<CustomList.RecyclerViewHold
         context1 = context;
         databaseHelper = new DatabaseHelper(context1);
         countArray = databaseHelper.getCountArray();
+        Log.d("test", "CustomList: "+countArray);
         count = countArray.size();
         Log.d("test", "CustomList: " + count);
 
@@ -63,7 +64,6 @@ public class CustomList extends RecyclerView.Adapter<CustomList.RecyclerViewHold
     @Override
     public void onBindViewHolder(@NonNull final CustomList.RecyclerViewHolder holder, final int position) {
         PlaceInfoHolder placeInfoHolder = databaseHelper.getHandler(countArray.get(position));
-        Log.d("test", "onBindViewHolder: "+ placeInfoHolder.getAddress());
         final String placeAddress = placeInfoHolder.getAddress();
         final String placeName = placeInfoHolder.getName();
         final double lat = placeInfoHolder.getLatitude();
@@ -92,13 +92,17 @@ public class CustomList extends RecyclerView.Adapter<CustomList.RecyclerViewHold
                                 intent.putExtra("placeAddress", placeAddress);
                                 intent.putExtra(Constants.latitudeKey, lat);
                                 intent.putExtra(Constants.longitudeKey, lon);
-                                intent.putExtra("count", position);
+                                intent.putExtra("count", countArray.get(position));
                                 intent.putExtra("editMap", true);
                                 context1.startActivity(intent);
                             }
 
                             @Override
                             public void onDismissRight() {
+                                databaseHelper.removeHandler(countArray.get(position));
+                                countArray = databaseHelper.getCountArray();
+                                count = countArray.size();
+                                notifyDataSetChanged();
                             }
 
                         })
@@ -110,6 +114,7 @@ public class CustomList extends RecyclerView.Adapter<CustomList.RecyclerViewHold
             intent.putExtra(Constants.longitudeKey, lon);
             intent.putExtra("placeAddress", placeAddress);
             intent.putExtra("editMap", false);
+            intent.putExtra("count", countArray.get(position));
             context1.startActivity(intent);
         });
 
