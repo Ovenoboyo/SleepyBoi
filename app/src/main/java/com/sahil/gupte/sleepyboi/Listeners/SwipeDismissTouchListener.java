@@ -18,7 +18,8 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
 
     // Fixed properties
     private final View mView;
-    private final TextView bgText;
+    private final TextView bgTextStart;
+    private final TextView bgTextEnd;
     private final DismissCallbacks mCallbacks;
     private final Object mToken;
     private int mViewWidth = 1; // 1 and not 0 to prevent dividing by zero
@@ -38,7 +39,7 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
      * @param callbacks The callback to trigger when the user has indicated that she would like to
      *                  dismiss this view.
      */
-    public SwipeDismissTouchListener(View view, TextView bgText, Object token, DismissCallbacks callbacks) {
+    public SwipeDismissTouchListener(View view, TextView bgTextStart, TextView bgTextEnd, Object token, DismissCallbacks callbacks) {
         ViewConfiguration vc = ViewConfiguration.get(view.getContext());
         mSlop = vc.getScaledTouchSlop();
         mMinFlingVelocity = vc.getScaledMinimumFlingVelocity() * 16;
@@ -48,7 +49,8 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
         mView = view;
         mToken = token;
         mCallbacks = callbacks;
-        this.bgText = bgText;
+        this.bgTextStart = bgTextStart;
+        this.bgTextEnd = bgTextEnd;
     }
 
     @Override
@@ -107,17 +109,25 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
                     // dismiss
                     ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(view, "translationX", dismissRight ? ((float) mViewWidth / 2) : ((float) -mViewWidth / 2));
                     objectAnimator.setDuration(mAnimationTime);
+                    boolean finalDismissRight = dismissRight;
                     objectAnimator.addListener(new AnimatorListenerAdapter() {
                         @Override
                         public void onAnimationEnd(Animator animation) {
-                            performDismiss();
+                            if ((finalDismissRight)) {
+                                performDelete();
+                            } else {
+                                performEdit();
+                            }
                         }
                     });
                     objectAnimator.start();
 
-                    ObjectAnimator bgTextAnimator = ObjectAnimator.ofFloat(bgText, "alpha", 1f);
-                    bgTextAnimator.setDuration(mAnimationTime);
-                    bgTextAnimator.start();
+                    ObjectAnimator bgTextAnimatorStart = ObjectAnimator.ofFloat(bgTextStart, "alpha", 1f);
+                    ObjectAnimator bgTextAnimatorEnd = ObjectAnimator.ofFloat(bgTextEnd, "alpha", 1f);
+                    bgTextAnimatorStart.setDuration(mAnimationTime);
+                    bgTextAnimatorEnd.setDuration(mAnimationTime);
+                    bgTextAnimatorStart.start();
+                    bgTextAnimatorEnd.start();
                     /*mView.animate()
                             .translationX(dismissRight ? ((float)mViewWidth/2) : ((float)-mViewWidth/2))
                             .alpha(0.8f)
@@ -140,7 +150,12 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
                             .setDuration(mAnimationTime)
                             .setListener(null);
 
-                    bgText.animate()
+                    bgTextStart.animate()
+                            .alpha(1f)
+                            .setDuration(mAnimationTime)
+                            .setListener(null);
+
+                    bgTextEnd.animate()
                             .alpha(1f)
                             .setDuration(mAnimationTime)
                             .setListener(null);
@@ -164,10 +179,16 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
                         .setDuration(mAnimationTime)
                         .setListener(null);
 
-                bgText.animate()
+                bgTextStart.animate()
                         .alpha(0f)
                         .setDuration(mAnimationTime)
                         .setListener(null);
+
+                bgTextEnd.animate()
+                        .alpha(0f)
+                        .setDuration(mAnimationTime)
+                        .setListener(null);
+
                 mVelocityTracker.recycle();
                 mVelocityTracker = null;
                 mTranslationX = 0;
@@ -202,7 +223,9 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
                 if (mSwiping) {
                     mTranslationX = deltaX;
                     mView.setTranslationX(deltaX - mSwipingSlop);
-                    bgText.setAlpha(Math.max(0.5f, Math.min(1f,
+                    bgTextStart.setAlpha(Math.max(0.5f, Math.min(1f,
+                            1f * Math.abs(deltaX) / (float) (mViewWidth / 2))));
+                    bgTextEnd.setAlpha(Math.max(0.5f, Math.min(1f,
                             1f * Math.abs(deltaX) / (float) (mViewWidth / 2))));
                     return true;
                 }
@@ -213,8 +236,12 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
         return false;
     }
 
-    private void performDismiss() {
-        mCallbacks.onDismiss();
+    private void performEdit() {
+        mCallbacks.onDismissLeft();
+    }
+
+    private void performDelete() {
+        mCallbacks.onDismissRight();
     }
 
     /**
@@ -230,7 +257,9 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
         /**
          * Called when the user has indicated they she would like to dismiss the view.
          */
-        void onDismiss();
+        void onDismissLeft();
+
+        void onDismissRight();
 
     }
 }

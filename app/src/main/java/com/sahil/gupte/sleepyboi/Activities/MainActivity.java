@@ -36,14 +36,14 @@ public class MainActivity extends AppCompatActivity {
         int i = 1;
         SharedPreferences pref = getSharedPreferences("place" + i, 0);
 
-        while (pref.contains("address")) {
+        /*while (pref.contains("address")) {
             String placeName = pref.getString("address", null);
             recyclerList.add(placeName);
             i++;
             pref = getSharedPreferences("place" + i, 0);
         }
 
-        listAdapter.setCount(recyclerList.size());
+        listAdapter.setCount(recyclerList.size());*/
 
         FrameLayout addNew = findViewById(R.id.add_button);
         addNew.setOnClickListener(view -> {

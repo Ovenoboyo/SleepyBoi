@@ -3,6 +3,7 @@ package com.sahil.gupte.sleepyboi.Customs;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,13 @@ public class CustomList extends RecyclerView.Adapter<CustomList.RecyclerViewHold
 
     public CustomList(Activity context) {
         context1 = context;
+        SharedPreferences pref = context1.getSharedPreferences("place0", 0);
+        Log.d("test", "CustomList: " + pref.contains("address"));
+        while (pref.contains("address")) {
+            count++;
+            pref = context1.getSharedPreferences("place" + count, 0);
+        }
+        Log.d("test", "CustomList: " + count);
 
     }
 
@@ -53,7 +61,7 @@ public class CustomList extends RecyclerView.Adapter<CustomList.RecyclerViewHold
 
     @Override
     public void onBindViewHolder(@NonNull final CustomList.RecyclerViewHolder holder, final int position) {
-        SharedPreferences pref = context1.getSharedPreferences("place" + (position + 1), 0);
+        SharedPreferences pref = context1.getSharedPreferences("place" + (position), 0);
         final String placeAddress = pref.getString("address", null);
         final long lat = pref.getLong(Constants.latitudeKey, 0);
         final long lon = pref.getLong(Constants.longitudeKey, 0);
@@ -67,7 +75,8 @@ public class CustomList extends RecyclerView.Adapter<CustomList.RecyclerViewHold
         holder.frame.setOnTouchListener(
                 new SwipeDismissTouchListener(
                         holder.frame,
-                        holder.bgText,
+                        holder.bgTextStart,
+                        holder.bgTextEnd,
                         null,
                         new SwipeDismissTouchListener.DismissCallbacks() {
 
@@ -77,7 +86,7 @@ public class CustomList extends RecyclerView.Adapter<CustomList.RecyclerViewHold
                             }
 
                             @Override
-                            public void onDismiss() {
+                            public void onDismissLeft() {
                                 Intent intent = new Intent(context1, AddItemActivity.class);
                                 intent.putExtra("placeName", placeAddress);
                                 intent.putExtra("placeAddress", placeAddress);
@@ -85,9 +94,16 @@ public class CustomList extends RecyclerView.Adapter<CustomList.RecyclerViewHold
                                 intent.putExtra(Constants.longitudeKey, lon);
                                 intent.putExtra("clockHour", clockHour);
                                 intent.putExtra("clockMin", clockMin);
-                                intent.putExtra("count", position + 1);
+                                intent.putExtra("count", position);
                                 intent.putExtra("editMap", true);
                                 context1.startActivity(intent);
+                            }
+
+                            @Override
+                            public void onDismissRight() {
+                                //broken
+                                pref.edit().clear().apply();
+                                notifyDataSetChanged();
                             }
 
                         })
@@ -124,14 +140,16 @@ public class CustomList extends RecyclerView.Adapter<CustomList.RecyclerViewHold
         final TextView placeName;
         final TextView time;
         final LinearLayout frame;
-        final TextView bgText;
+        final TextView bgTextStart;
+        final TextView bgTextEnd;
 
         RecyclerViewHolder(View view) {
             super(view);
             time = view.findViewById(R.id.time);
             placeName = view.findViewById(R.id.placeName);
             frame = view.findViewById(R.id.content_frame);
-            bgText = view.findViewById(R.id.bgText);
+            bgTextStart = view.findViewById(R.id.bgTextStart);
+            bgTextEnd = view.findViewById(R.id.bgTextEnd);
 
         }
     }
