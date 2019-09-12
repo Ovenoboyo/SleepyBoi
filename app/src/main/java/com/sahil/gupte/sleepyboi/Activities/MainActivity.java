@@ -16,7 +16,6 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final ArrayList<String> recyclerList = new ArrayList<>();
     private CustomList listAdapter;
 
     @Override
@@ -33,33 +32,11 @@ public class MainActivity extends AppCompatActivity {
         llm.setOrientation(RecyclerView.VERTICAL);
         list.setLayoutManager(llm);
 
-        int i = 1;
-        SharedPreferences pref = getSharedPreferences("place" + i, 0);
-
-        /*while (pref.contains("address")) {
-            String placeName = pref.getString("address", null);
-            recyclerList.add(placeName);
-            i++;
-            pref = getSharedPreferences("place" + i, 0);
-        }
-
-        listAdapter.setCount(recyclerList.size());*/
-
         FrameLayout addNew = findViewById(R.id.add_button);
         addNew.setOnClickListener(view -> {
             Intent AddItemActivity = new Intent(getBaseContext(), AddItemActivity.class);
-            AddItemActivity.putExtra("count", listAdapter.getItemCount());
+            //AddItemActivity.putExtra("count", listAdapter.getItemCount());
             startActivity(AddItemActivity);
         });
-
-        //Button switch_map = findViewById(R.id.switch_map);
-
-        /*switch_map.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getBaseContext(), MapsActivity.class);
-                startActivity(i);
-            }
-        }); */
     }
 }

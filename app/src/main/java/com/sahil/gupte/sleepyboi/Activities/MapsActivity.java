@@ -258,7 +258,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Permis
             e.printStackTrace();
             addresses = null;
         }
-        return new PlaceInfoHolder(Objects.requireNonNull(addresses).get(0).getLatitude(), addresses.get(0).getLongitude(), addresses.get(0).getAddressLine(0));
+        return new PlaceInfoHolder(Objects.requireNonNull(addresses).get(0).getLatitude(), addresses.get(0).getLongitude(), addresses.get(0).getAddressLine(0), "test");
     }
 
 
@@ -275,8 +275,6 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Permis
         intent.putExtra(Constants.latitudeKey, placeInfoHolder.getLatitude());
         intent.putExtra(Constants.longitudeKey, placeInfoHolder.getLongitude());
         intent.putExtra("count", count);
-        intent.putExtra("clockHour", clockHour);
-        intent.putExtra("clockMin", clockMin);
         startActivity(intent);
     }
 

@@ -16,24 +16,25 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.sahil.gupte.sleepyboi.Activities.AddItemActivity;
 import com.sahil.gupte.sleepyboi.Activities.MapsActivity;
 import com.sahil.gupte.sleepyboi.Constants;
+import com.sahil.gupte.sleepyboi.Database.DatabaseHelper;
 import com.sahil.gupte.sleepyboi.Listeners.SwipeDismissTouchListener;
 import com.sahil.gupte.sleepyboi.R;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CustomList extends RecyclerView.Adapter<CustomList.RecyclerViewHolder> {
     private final Activity context1;
     private final HashMap<Integer, RecyclerView.ViewHolder> holderHashMap = new HashMap<>();
-    private int count = 0;
+    private ArrayList<Integer> countArray;
+    private int count;
+    private DatabaseHelper databaseHelper;
 
     public CustomList(Activity context) {
         context1 = context;
-        SharedPreferences pref = context1.getSharedPreferences("place0", 0);
-        Log.d("test", "CustomList: " + pref.contains("address"));
-        while (pref.contains("address")) {
-            count++;
-            pref = context1.getSharedPreferences("place" + count, 0);
-        }
+        databaseHelper = new DatabaseHelper(context1);
+        countArray = databaseHelper.getCountArray();
+        count = countArray.size();
         Log.d("test", "CustomList: " + count);
 
     }
@@ -61,17 +62,14 @@ public class CustomList extends RecyclerView.Adapter<CustomList.RecyclerViewHold
 
     @Override
     public void onBindViewHolder(@NonNull final CustomList.RecyclerViewHolder holder, final int position) {
-        SharedPreferences pref = context1.getSharedPreferences("place" + (position), 0);
-        final String placeAddress = pref.getString("address", null);
-        final String placeName = pref.getString("name", null);
-        final long lat = pref.getLong(Constants.latitudeKey, 0);
-        final long lon = pref.getLong(Constants.longitudeKey, 0);
-        final int clockHour = pref.getInt("clockHour", -1);
-        final int clockMin = pref.getInt("clockMin", -1);
+        PlaceInfoHolder placeInfoHolder = databaseHelper.getHandler(countArray.get(position));
+        Log.d("test", "onBindViewHolder: "+ placeInfoHolder.getAddress());
+        final String placeAddress = placeInfoHolder.getAddress();
+        final String placeName = placeInfoHolder.getName();
+        final double lat = placeInfoHolder.getLatitude();
+        final double lon = placeInfoHolder.getLongitude();
 
         holder.placeName.setText(placeAddress);
-        String hour = (clockHour < 10) ? "0" + clockHour : "" + clockHour;
-        String min = (clockMin < 10) ? "0" + clockMin : "" + clockMin;
         holder.name.setText(placeName);
 
         holder.frame.setOnTouchListener(
@@ -94,8 +92,6 @@ public class CustomList extends RecyclerView.Adapter<CustomList.RecyclerViewHold
                                 intent.putExtra("placeAddress", placeAddress);
                                 intent.putExtra(Constants.latitudeKey, lat);
                                 intent.putExtra(Constants.longitudeKey, lon);
-                                intent.putExtra("clockHour", clockHour);
-                                intent.putExtra("clockMin", clockMin);
                                 intent.putExtra("count", position);
                                 intent.putExtra("editMap", true);
                                 context1.startActivity(intent);
@@ -103,9 +99,6 @@ public class CustomList extends RecyclerView.Adapter<CustomList.RecyclerViewHold
 
                             @Override
                             public void onDismissRight() {
-                                //broken
-                                pref.edit().clear().apply();
-                                notifyDataSetChanged();
                             }
 
                         })

@@ -13,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.sahil.gupte.sleepyboi.Constants;
+import com.sahil.gupte.sleepyboi.Customs.PlaceInfoHolder;
+import com.sahil.gupte.sleepyboi.Database.DatabaseHelper;
 import com.sahil.gupte.sleepyboi.R;
 
 import java.util.Objects;
@@ -35,8 +37,8 @@ public class AddItemActivity extends AppCompatActivity {
         Intent myIntent = getIntent();
         count = myIntent.getIntExtra("count", 0);
 
-        final long latitude = myIntent.getLongExtra(Constants.latitudeKey, 0);
-        final long longitude = myIntent.getLongExtra(Constants.longitudeKey, 0);
+        final double latitude = myIntent.getDoubleExtra(Constants.latitudeKey, 0);
+        final double longitude = myIntent.getDoubleExtra(Constants.longitudeKey, 0);
         String placeName = myIntent.getStringExtra("placeName");
         final String placeAddress = myIntent.getStringExtra("placeAddress");
 
@@ -85,14 +87,11 @@ public class AddItemActivity extends AppCompatActivity {
 
         Button submit = findViewById(R.id.submit);
         submit.setOnClickListener(view -> {
-            SharedPreferences pref = getSharedPreferences("place" + count, 0);
-            SharedPreferences.Editor editor = pref.edit();
-            editor.putLong(Constants.latitudeKey, latitude);
-            editor.putLong(Constants.longitudeKey, longitude);
-            editor.putString("address", placeAddress);
-            editor.putInt("clockHour", clockHour);
-            editor.putInt("clockMin", clockMin);
-            editor.apply();
+
+            DatabaseHelper databaseHelper = new DatabaseHelper(this);
+            PlaceInfoHolder placeInfoHolder = new PlaceInfoHolder(latitude, longitude, placeAddress, placeName);
+            databaseHelper.addHandler(placeInfoHolder);
+
             Intent intent = new Intent(AddItemActivity.this, MainActivity.class);
             startActivity(intent);
         });
