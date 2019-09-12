@@ -5,22 +5,18 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import com.sahil.gupte.sleepyboi.Customs.PlaceInfoHolder;
 
 import java.util.ArrayList;
-
-import static android.provider.Contacts.SettingsColumns.KEY;
-import static java.sql.Types.NULL;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     static final String dbName="PlaceKeeper.db";
     static final String tableName="Places";
     static final String colID="PlaceID";
-    static final String colName="PlaceName";
-    static final String colAddress="PlaceAddress";
+    static final String colName=Constants.placeName;
+    static final String colAddress=Constants.placeAddress;
     static final String colLat="PlaceLat";
     static final String colLng="PlaceLng";
 

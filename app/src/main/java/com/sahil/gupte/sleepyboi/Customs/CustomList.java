@@ -86,11 +86,11 @@ public class CustomList extends RecyclerView.Adapter<CustomList.RecyclerViewHold
                             @Override
                             public void onDismissLeft() {
                                 Intent intent = new Intent(context1, AddItemActivity.class);
-                                intent.putExtra("placeName", placeAddress);
-                                intent.putExtra("placeAddress", placeAddress);
+                                intent.putExtra(Constants.placeName, placeAddress);
+                                intent.putExtra(Constants.placeAddress, placeAddress);
                                 intent.putExtra(Constants.latitudeKey, lat);
                                 intent.putExtra(Constants.longitudeKey, lon);
-                                intent.putExtra("count", countArray.get(position));
+                                intent.putExtra(Constants.count, countArray.get(position));
                                 intent.putExtra("editMap", true);
                                 context1.startActivity(intent);
                             }
@@ -115,9 +115,9 @@ public class CustomList extends RecyclerView.Adapter<CustomList.RecyclerViewHold
             Intent intent = new Intent(context1, MapsActivity.class);
             intent.putExtra(Constants.latitudeKey, lat);
             intent.putExtra(Constants.longitudeKey, lon);
-            intent.putExtra("placeAddress", placeAddress);
+            intent.putExtra(Constants.placeAddress, placeAddress);
             intent.putExtra("editMap", false);
-            intent.putExtra("count", countArray.get(position));
+            intent.putExtra(Constants.count, countArray.get(position));
             context1.startActivity(intent);
         });
 

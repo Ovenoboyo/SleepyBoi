@@ -100,7 +100,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Permis
         mapView.getMapAsync(this);
 
         Intent myIntent = getIntent();
-        count = myIntent.getIntExtra("count", 0);
+        count = myIntent.getIntExtra(Constants.count, 0);
         latitude = Double.longBitsToDouble(myIntent.getLongExtra(Constants.latitudeKey, 0));
         longitude = Double.longBitsToDouble(myIntent.getLongExtra(Constants.longitudeKey, 0));
         editMap = myIntent.getBooleanExtra("editMap", false);
@@ -268,11 +268,11 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Permis
     private void switchActivity() {
         PlaceInfoHolder placeInfoHolder = setPlaceInfoHolder(marker.getPosition());
         Intent intent = new Intent(this, AddItemActivity.class);
-        intent.putExtra("placeName", placeInfoHolder.getAddress());
-        intent.putExtra("placeAddress", placeInfoHolder.getAddress());
+        intent.putExtra(Constants.placeName, placeInfoHolder.getAddress());
+        intent.putExtra(Constants.placeAddress, placeInfoHolder.getAddress());
         intent.putExtra(Constants.latitudeKey, placeInfoHolder.getLatitude());
         intent.putExtra(Constants.longitudeKey, placeInfoHolder.getLongitude());
-        intent.putExtra("count", count);
+        intent.putExtra(Constants.count, count);
         finish();
         startActivity(intent);
     }

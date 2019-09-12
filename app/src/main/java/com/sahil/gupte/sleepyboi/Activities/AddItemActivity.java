@@ -30,12 +30,11 @@ public class AddItemActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         Intent myIntent = getIntent();
-        count = myIntent.getIntExtra("count", 0);
+        count = myIntent.getIntExtra(Constants.count, 0);
 
         final double latitude = myIntent.getDoubleExtra(Constants.latitudeKey, 0);
         final double longitude = myIntent.getDoubleExtra(Constants.longitudeKey, 0);
-        final String placeAddress = myIntent.getStringExtra("placeAddress");
-
+        final String placeAddress = myIntent.getStringExtra(Constants.placeAddress);
 
         Button mapPicker = findViewById(R.id.mapPicker);
         TextView locationDisplay = findViewById(R.id.location_display);
@@ -45,7 +44,7 @@ public class AddItemActivity extends AppCompatActivity {
 
         mapPicker.setOnClickListener(view -> {
             Intent mapsActivity = new Intent(getBaseContext(), MapsActivity.class);
-            mapsActivity.putExtra("count", count);
+            mapsActivity.putExtra(Constants.count, count);
             mapsActivity.putExtra(Constants.latitudeKey, latitude);
             mapsActivity.putExtra(Constants.longitudeKey, longitude);
             mapsActivity.putExtra("editMap", true);
